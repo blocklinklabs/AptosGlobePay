@@ -2,12 +2,15 @@
 
 import { Globe, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useWallet } from "@aptos-labs/wallet-adapter-react";
 
 interface NavigationProps {
   currentPage?: string;
 }
 
 export default function Navigation({ currentPage = "home" }: NavigationProps) {
+  const { connected, connect, disconnect, account, wallets } = useWallet();
+
   return (
     <nav className="border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,9 +30,19 @@ export default function Navigation({ currentPage = "home" }: NavigationProps) {
                 <a href="/dashboard">Dashboard</a>
               </Button>
             )}
+            {currentPage !== "remittance" && (
+              <Button variant="ghost" asChild>
+                <a href="/remittance">Remittance</a>
+              </Button>
+            )}
             {currentPage !== "payroll" && (
               <Button variant="ghost" asChild>
                 <a href="/payroll">Payroll</a>
+              </Button>
+            )}
+            {currentPage !== "aptos" && (
+              <Button variant="ghost" asChild>
+                <a href="/aptos">Aptos DeFi</a>
               </Button>
             )}
             {currentPage !== "setup" && (
@@ -37,10 +50,24 @@ export default function Navigation({ currentPage = "home" }: NavigationProps) {
                 <a href="/setup">Setup</a>
               </Button>
             )}
-            <Button>
-              <Wallet className="h-4 w-4 mr-2" />
-              Connect Wallet
-            </Button>
+            {connected && account ? (
+              <div className="flex items-center space-x-3">
+                <span className="text-sm text-muted-foreground">
+                  {account.address.toString().slice(0, 6)}...
+                  {account.address.toString().slice(-4)}
+                </span>
+                <Button variant="outline" onClick={disconnect}>
+                  Disconnect
+                </Button>
+              </div>
+            ) : (
+              <Button
+                onClick={() => wallets.length > 0 && connect(wallets[0].name)}
+              >
+                <Wallet className="h-4 w-4 mr-2" />
+                Connect Wallet
+              </Button>
+            )}
           </div>
         </div>
       </div>

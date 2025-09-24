@@ -18,6 +18,8 @@ export const metadata: Metadata = {
     "Instant cross-border remittance and payroll system powered by Aptos stablecoins. Low fees, instant settlement.",
 };
 
+import { AptosWalletProvider } from "@/components/AptosWalletProvider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -28,7 +30,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AptosWalletProvider>{children}</AptosWalletProvider>
       </body>
     </html>
   );

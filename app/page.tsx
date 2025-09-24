@@ -19,6 +19,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import AptosRemittance from "@/components/AptosRemittance";
+import AptosForexSwap from "@/components/AptosForexSwap";
+import AptosDemo from "@/components/AptosDemo";
+import P2PRemittance from "@/components/P2PRemittance";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("remittance");
@@ -97,18 +101,30 @@ export default function Home() {
               <Building2 className="h-5 w-5 mr-2" />
               Payroll System
             </Button>
-            <Button variant="outline" asChild>
-              <a href="/setup">
+            <Button
+              variant={activeTab === "demo" ? "default" : "outline"}
+              onClick={() => setActiveTab("demo")}
+            >
+              <Wallet className="h-5 w-5 mr-2" />
+              Aptos Demo
+            </Button>
+            <Button
+              variant="outline"
+              className="flex flex-row items-center"
+              asChild
+            >
+              <a href="/setup" className="flex flex-row items-center">
                 <Building2 className="h-5 w-5 mr-2" />
-                Setup Company
+                <span>Setup </span>
               </a>
             </Button>
           </div>
 
           {/* Tab Content */}
-          {activeTab === "remittance" && <RemittanceInterface />}
-          {activeTab === "forex" && <ForexSwapInterface />}
+          {activeTab === "remittance" && <P2PRemittance />}
+          {activeTab === "forex" && <AptosForexSwap />}
           {activeTab === "payroll" && <PayrollInterface />}
+          {activeTab === "demo" && <AptosDemo />}
         </Card>
       </div>
 
